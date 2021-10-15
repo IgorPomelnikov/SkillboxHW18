@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.IO;
 
 namespace SkillboxHW18
 {
@@ -7,9 +8,10 @@ namespace SkillboxHW18
     {
         static void Main(string[] args)
         {
+            string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\SkillboxHW18DB.mdf"));
             var random = new Random();
             var options = new DbContextOptionsBuilder<DataContext>()
-                .UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"\\\\rttv.ru\\profile\\UserData2\\iapomelnikov\\My Documents\\SkillboxHW18DB.mdf\";Integrated Security=True;Connect Timeout=30")
+                .UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB; AttachDbFilename=\""+path+"\";Integrated Security=True;Connect Timeout=30")
                 .Options;
             using var db = new DataContext(options);
 
