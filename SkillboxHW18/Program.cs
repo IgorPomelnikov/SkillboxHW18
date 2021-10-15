@@ -7,15 +7,16 @@ namespace SkillboxHW18
     class Program
     {
         static void Main(string[] args)
-        {
+        {   //создаём базу данных
             string path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\SkillboxHW18DB.mdf"));
             var random = new Random();
             var options = new DbContextOptionsBuilder<DataContext>()
-                .UseSqlServer("Data Source=(LocalDB)\\MSSQLLocalDB; AttachDbFilename=\""+path+"\";Integrated Security=True;Connect Timeout=30")
+                .UseSqlServer($"Data Source=(LocalDB)\\MSSQLLocalDB; AttachDbFilename=\"{path}\";Integrated Security=True;Connect Timeout=30")
                 .Options;
             using var db = new DataContext(options);
-
+            
             db.Database.EnsureCreated();
+            //наполняем базу данных героями
             for (int i = 0; i < random.Next(1, 30); i++)
             {
                 db.Heroes.Add(new Hero()
@@ -27,10 +28,15 @@ namespace SkillboxHW18
                 });
             }
             db.SaveChanges();
+            //выводим результат в консоль
             Print(db);
 
         }
 
+        /// <summary>
+        /// Выводит в консоль базу данных
+        /// </summary>
+        /// <param name="db"></param>
         private static void Print(DataContext db)
         {
             Console.WriteLine($"{"Id",4} | {"Имя",10} | {"Доспех",10} | {"Оружие",10}\n\n");
@@ -41,6 +47,10 @@ namespace SkillboxHW18
             }
         }
 
+        /// <summary>
+        /// Возвращает экземляр оружия
+        /// </summary>
+        /// <returns></returns>
         static Wearpon GetWearpon()
         {
             Random random = new();
@@ -52,6 +62,10 @@ namespace SkillboxHW18
             };
         }
         
+        /// <summary>
+        /// Возвращает экземпляр брони
+        /// </summary>
+        /// <returns></returns>
         static Armor GetArmor()
         {
             Random random = new();
@@ -62,6 +76,10 @@ namespace SkillboxHW18
             };
         }
         
+        /// <summary>
+        /// Возвращает рандомно одно из названий брони
+        /// </summary>
+        /// <returns></returns>
         static string GetArmorName()
         {
             Random random = new Random();
@@ -77,6 +95,10 @@ namespace SkillboxHW18
             }
         }
         
+        /// <summary>
+        /// Возвращает рандомно одно из названий оружия
+        /// </summary>
+        /// <returns></returns>
         static string GetWearponName()
         {
             Random random = new Random();
@@ -92,6 +114,10 @@ namespace SkillboxHW18
             }
         }
 
+        /// <summary>
+        /// Возвращает рандомно одно из нескольких имён 
+        /// </summary>
+        /// <returns></returns>
         static string GetRandomName()
         {
             Random random = new Random();
